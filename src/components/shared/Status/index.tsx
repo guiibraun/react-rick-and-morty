@@ -1,13 +1,12 @@
 type Props = {
-   status: string,
-
+   status: string
 }
 
 export const Status = ({ status }: Props) => {
    return (
       <>
          {status == "Dead" && (
-            <span className="before:content-[''] before:w-4 before:h-4 before:bg-red-900 before:rounded-full before:mr-2">
+            <span className="flex items-center before:content-[''] before:w-4 before:h-4 before:bg-red-900 before:rounded-full before:mr-2">
                {status}
             </span>
          )
