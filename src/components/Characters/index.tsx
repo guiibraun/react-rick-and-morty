@@ -4,14 +4,16 @@ import { Char, Pagination } from "../../types/Char";
 
 export const Characters = () => {
   const [character, setCharacter] = useState<Char[]>([]);
-  const [pagination, setPagination] = useState<Pagination[]>([])
+
+
+  const url = () => {
+    return `https://rickandmortyapi.com/api/character?page=`
+  }
 
   const getCharacters = async () => {
     try {
-      let resolve = await fetch("https://rickandmortyapi.com/api/character");
+      let resolve = await fetch(url());
       let result = await resolve.json();
-      let pagination = result.info
-      console.log(pagination)
       setCharacter(result.results);
     } catch (e) {
       alert("erro");
@@ -36,6 +38,7 @@ export const Characters = () => {
               </div>
               <div>{item.gender}</div>
             </div>
+
           </div>
         ))}
       </div>
