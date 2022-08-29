@@ -5,3 +5,8 @@ export type Char = {
    gender: string,
    image: string
 }
+
+export type Pagination = {
+   prev: string,
+   next: string
+}

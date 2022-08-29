@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Status } from "../shared/StatusAndSpecies";
-import { Char } from "../../types/Char";
+import { Char, Pagination } from "../../types/Char";
 
 export const Characters = () => {
   const [character, setCharacter] = useState<Char[]>([]);
-  const [pagination, setPagination] = useState<string[]>([])
+  const [pagination, setPagination] = useState<Pagination[]>([])
 
   const getCharacters = async () => {
     try {
