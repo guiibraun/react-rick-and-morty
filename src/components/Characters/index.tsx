@@ -28,7 +28,7 @@ export const Characters = () => {
              <img src={item.image} alt={item.name} className="rounded-md" />
              <div className="flex flex-col items-stretch">
                <div className="font-extrabold text-2xl">{item.name}</div>
-               <Status status={item.status} species={item.species} />
+               <span className="flex items-center"><Status status={item.status}/> - {item.species}</span>
                <div>{item.gender}</div>
              </div>
            </div>
