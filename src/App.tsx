@@ -2,7 +2,7 @@ import "./App.css";
 import {Characters} from "./components/Characters"
 function App() {
   return (
-    <div className="w-screen max-w-7xl mx-auto">
+    <div>
         <Characters />
     </div>
   );
