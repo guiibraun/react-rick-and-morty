@@ -4,14 +4,12 @@ import { Char, Pagination } from "../../types/Char";
 
 export const Characters = () => {
   const [character, setCharacter] = useState<Char[]>([]);
-  const [pagination, setPagination] = useState<Pagination[]>([])
+  const [pagination, setPagination] = useState<string>('https://rickandmortyapi.com/api/character')
 
   const getCharacters = async () => {
     try {
-      let resolve = await fetch("https://rickandmortyapi.com/api/character");
+      let resolve = await fetch(pagination);
       let result = await resolve.json();
-      let pagination = result.info
-      console.log(pagination)
       setCharacter(result.results);
     } catch (e) {
       alert("erro");
@@ -20,7 +18,18 @@ export const Characters = () => {
 
   useEffect(() => {
     getCharacters();
-  }, []);
+  }, [pagination]);
+
+
+  const handlePagination = async () => {
+    try {
+      let resolve = await fetch(pagination);
+      let result = await resolve.json();
+      setPagination(result.info.next);
+    } catch (e) {
+      alert("erro");
+    }
+  }
 
   return (
     <div>
@@ -39,6 +48,7 @@ export const Characters = () => {
           </div>
         ))}
       </div>
+      <button onClick={handlePagination}>Próximo</button>
     </div>
   );
 }
