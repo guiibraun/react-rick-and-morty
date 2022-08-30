@@ -1,54 +1,50 @@
 import { useState, useEffect } from "react";
-import { Status } from "../shared/StatusAndSpecies";
-import { Char, Pagination } from "../../types/Char";
+import { Char} from "../../types/Char";
+import { api } from "../../Api/api";
+import { CharacterOne } from "./Character";
 
 export const Characters = () => {
   const [character, setCharacter] = useState<Char[]>([]);
-  const [pagination, setPagination] = useState<string>('https://rickandmortyapi.com/api/character')
+  const [paginationNext, setPaginationNext] = useState<string>('https://rickandmortyapi.com/api/character')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const getCharacters = async () => {
-    try {
-      let resolve = await fetch(pagination);
-      let result = await resolve.json();
-      setCharacter(result.results);
-    } catch (e) {
-      alert("erro");
-    }
+      setLoading(true)
+      let json = await api.getAllCharacters(paginationNext)
+      setCharacter(json.results);
+      setLoading(false)
   };
 
   useEffect(() => {
     getCharacters();
-  }, [pagination]);
+  }, [paginationNext]);
 
 
-  const handlePagination = async () => {
-    try {
-      let resolve = await fetch(pagination);
-      let result = await resolve.json();
-      setPagination(result.info.next);
-    } catch (e) {
-      alert("erro");
-    }
+  const handlePaginationNext = async () => {
+      let json = await api.getAllCharacters(paginationNext)
+      setPaginationNext(json.info.next);
   }
-
+  
   return (
     <div>
-      Total de Personagens: {character.length}
-      <div className="grid grid-colds-1 md:grid-cols-2 gap-4">
-        {character.map((item, index) => (
-          <div key={index} className="flex flex-row gap-4 items-center text-left rounded-md bg-gray-800 text-white">
-            <img src={item.image} alt={item.name} className="rounded-md" />
-            <div className="flex flex-col items-stretch w-10/12	p-3">
-              <div className="font-extrabold text-2xl">{item.name}</div>
-              <div className="flex items-center">
-                <Status status={item.status} species={item.species}/>
-              </div>
-              <div>{item.gender}</div>
-            </div>
+      {loading && 
+        <div className="text-white bg-black h-screen w-screen absolute flex justify-center items-center text-8xl	" mx-auto>Carregando...</div>
+      }
+
+      {!loading && 
+        <div className="max-w-screen-xl mx-auto ">
+        <h2>Total de Personagens: {character.length}</h2>
+          <div className="grid grid-colds-1 md:grid-cols-2 gap-4">
+
+            {character.map((item, index) => (
+              <CharacterOne key={index} data={item} />
+            ))}
           </div>
-        ))}
-      </div>
-      <button onClick={handlePagination}>Próximo</button>
+          <button onClick={handlePaginationNext}>Próximo</button>
+
+        </div>
+      }
+
     </div>
   );
 }
